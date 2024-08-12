@@ -1,111 +1,89 @@
 from manim import *
 
 
-class Register(VGroup):
-    def __init__(self, h=0.8, w=0.8, txt=""):
+
+class tmptester(VGroup):
+    def __init__(self):
         super().__init__()
-        self.databox = RectTxt(txt=txt, h=h, w=w)
-        self.downstream_register = None
+        self.objs = []
 
-        self.active_data = None
-        self.next_data = None
-        self.add(self.databox)
+    def add_cir(self, data):
+        self.objs.append(CircTxt(data, radius=0.3))
+        self.add(self.objs[-1])
 
-    def set_active_data(self, newdata):
-        if (self.active_data is not None):
-            raise AssertionError("active data is already set.")
+    def add_rec(self, data):
+        self.objs.append(RectTxt(data, h=0.8, w=0.8))
+        self.add(self.objs[-1])
 
-        self.active_data = newdata 
-        self.add(self.active_data)
+    def move_last_obj(self, coords):
+        self.objs[-1].move_to(coords)
 
-    def update_next_data(self, next_data):
-        self.next_data = next_data
 
-    def set_downstream_register(self, ds_reg):
-        self.downstream_register = ds_reg
-
-    def clock_tick(self):
-        if ( (self.downstream_register is not None) and
-            (self.active_data is not None)
-        ):
-            self.active_data.move_to(self.downstream_register.get_rect().get_center())
-            self.downstream_register.update_next_data( self.active_data )
-
-        if (self.active_data is not None):
-            self.remove( self.active_data )
-
-        self.active_data = self.next_data
-
-        if (self.active_data is not None):
-            self.add(self.active_data)
-
-        if (self.downstream_register is not None):
-            self.downstream_register.clock_tick()
-
-    def get_rect(self):
-        return self.databox
+class FIFO_pkt(VGroup):
+    def __init__(self, txt, color, opacity=0.8, fifo_idx=0):
+        super().__init__()
+        self.pkt = CircTxt(txt, radius=0.3)
+        self.fifo_idx = 0
+        self.add(self.pkt)
+        self.pkt.set_fill(color, opacity=opacity)
+        self.pkt.txtcolor(WHITE, txtopacity=1)
 
     def move_to(self, coords):
-        self.databox.move_to(coords)
+        self.pkt.move_to(coords)
 
 
 
-
-class FIFO(VGroup):
+class FIFO_boxes(VGroup):
     def __init__(self, fifo_depth=3):
         super().__init__()
-        self.head_coords = (0, 0, 0)
+        self.head_coords = (-2,-1,0)
         self.fifo_depth = fifo_depth
-        self.fifo = [Register(txt="") for i in range(0,fifo_depth)]
+        self.boxes = [RectTxt(txt="",h=1.0,w=1.0)
+                            for i in range(0,fifo_depth)
+        ]
 
-        self.fifo[0].move_to( (-2, -1, 0) )
+        self.boxes[0].move_to( self.head_coords )
         for i in range(0, self.fifo_depth-1):
-            self.fifo[i].set_downstream_register(
-                            self.fifo[i+1]
+            self.boxes[i].set_downstream_register(
+                            self.boxes[i+1]
             )
-            self.fifo[i+1].next_to( self.fifo[i].get_rect(), RIGHT, buff=0 )
+            self.boxes[i+1].next_to( self.boxes[i].get_rect(), RIGHT, buff=0 )
 
         for i in range(0, self.fifo_depth):
-            self.add( self.fifo[i] )
-
-
-    def insert_head(self, data):
-        self.clock_tick()
-        data.move_to(self.head_coords)
-        self.fifo[0].set_active_data(data)
-
-
-    def clock_tick(self):
-        self.fifo[0].clock_tick()
+            self.add( self.boxes[i] )
 
 
     def move_to(self, coords):
         self.head_coords = coords
-        self.fifo[0].move_to(self.head_coords)
+        self.boxes[0].move_to(self.head_coords)
         for i in range(0, self.fifo_depth-1):
-            self.fifo[i+1].next_to( self.fifo[i].get_rect(), RIGHT, buff=0 )
+            self.boxes[i+1].next_to( self.boxes[i].get_rect(), RIGHT, buff=0 )
 
 
 
 
 
 class RectTxt(VGroup):
-    def __init__(self, txt, h=0.8, w=1.8):
+    def __init__(self, txt, h=0.8, w=1.8, txt_offset=(0,0,0)):
         super().__init__()
         self.txtidx = 0
         self.txt = Text(txt)
+        self.txt_offset = txt_offset
         self.rect = Rectangle(height=h, width=w)
-        self.txt.add_updater(lambda m : m.move_to(self.rect.get_center()))
+        self.txt.add_updater(lambda m : m.move_to(self.rect.get_center() + self.txt_offset))
         self.add(self.rect, self.txt)
 
     def change_content(self, txt):
         self.remove(self.txt)
         self.txt = Text(txt)
-        self.txt.add_updater(lambda m : m.move_to(self.rect.get_center()))
+        self.txt.add_updater(lambda m : m.move_to(self.rect.get_center() + self.txt_offset))
         self.add(self.txt)
 
     def get_rect(self):
         return self.rect
+
+    def get_center(self):
+        return self.rect.get_center()
 
     def change_color(self, color, opacity):
         self.rect.set_fill(color, opacity=opacity)
@@ -123,11 +101,14 @@ class CircTxt(VGroup):
         super().__init__()
         self.txt = Text(txt)
         self.circle = Circle(radius=radius)
-        self.txt.add_updater(lambda m : m.move_to(self.circle.get_center()))
+        #self.txt.add_updater(lambda m : m.move_to(self.circle.get_center()))
         self.add(self.circle, self.txt)
 
     def move_to(self, coords):
         self.circle.move_to(coords)
-        self.txt.move_to(coords)
+        self.txt.move_to( (coords[0], coords[1], coords[2]+1) )
+
+    def txtcolor(self, txtcolor, txtopacity):
+        self.txt.set_fill(color=txtcolor, opacity=txtopacity)
 
 

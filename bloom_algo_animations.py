@@ -55,6 +55,15 @@ class BitVector(VGroup):
 
 
 
+class test(Scene):
+    def construct(self):
+        bv = BitVector()
+
+        self.play(
+            bv.animate.change_position( (-1, 2, 3) )
+        )
+
+
 
 class insertions(Scene):
     def construct(self):
