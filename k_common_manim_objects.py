@@ -28,6 +28,9 @@ class FIFO_pkt(VGroup):
         self.pkt.set_fill(color, opacity=opacity)
         self.pkt.txtcolor(WHITE, txtopacity=1)
 
+    def outline_color(self, color, width=1):
+        self.pkt.outline_color(color, width=width)
+
     def move_to(self, coords):
         self.pkt.move_to(coords)
 
@@ -85,7 +88,7 @@ class FIFO_boxes(VGroup):
 
 
 class RectTxt(VGroup):
-    def __init__(self, txt, h=0.8, w=1.8, txt_offset=(0,0,0)):
+    def __init__(self, txt, h=0.8, w=1.8, txt_offset=(0,0,1)):
         super().__init__()
         self.txtidx = 0
         self.txt = Text(txt)
@@ -108,6 +111,7 @@ class RectTxt(VGroup):
 
     def change_color(self, color, opacity):
         self.rect.set_fill(color, opacity=opacity)
+        self.txt.set_fill(WHITE, opacity=1)
 
     def change_fill(self, opacity):
         self.rect.set_fill(WHITE, opacity=opacity)
@@ -124,6 +128,9 @@ class CircTxt(VGroup):
         self.circle = Circle(radius=radius)
         #self.txt.add_updater(lambda m : m.move_to(self.circle.get_center()))
         self.add(self.circle, self.txt)
+
+    def outline_color(self, color, width=1):
+        self.circle.set_stroke(color, width=width)
 
     def move_to(self, coords):
         self.circle.move_to(coords)
