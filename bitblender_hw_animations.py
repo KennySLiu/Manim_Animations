@@ -122,32 +122,45 @@ class unshuffle_agg_deadlock(Scene):
         unshuf2agg_lines[2].set_color(S1_COLOR)
         unshuf2agg_lines[3].set_color(S1_COLOR)
 
-        pkts = []
+        pkts = [[], []] ### [hash_idx][stm_idx][input_idx]
         tmp = []
-        tmp.append( kmobjs.FIFO_pkt("0", color=RED) )
-        tmp.append( kmobjs.FIFO_pkt("1", color=RED) )
-        tmp.append( kmobjs.FIFO_pkt("2", color=RED) )
-        pkts.append(tmp)
-
+        ### HASH SECTION 0 PACKETS:
+        tmp.append( kmobjs.FIFO_pkt("0", color=S1_COLOR) )
+        tmp.append( kmobjs.FIFO_pkt("1", color=S1_COLOR) )
+        pkts[0].append(tmp)
         tmp = []
         tmp.append( kmobjs.FIFO_pkt("0", color=S0_COLOR) )
         tmp.append( kmobjs.FIFO_pkt("1", color=S0_COLOR) )
-        tmp.append( kmobjs.FIFO_pkt("2", color=S0_COLOR) )
-        pkts.append(tmp)
 
-        pkts[0][0].outline_color(H0_COLOR2, width=5)
-        pkts[0][1].outline_color(H0_COLOR2, width=5)
-        pkts[1][2].outline_color(H0_COLOR2, width=5)
-        pkts[1][0].outline_color(H1_COLOR2, width=5)
-        pkts[1][1].outline_color(H1_COLOR2, width=5)
-        pkts[0][2].outline_color(H1_COLOR2, width=5)
+        pkts[0].append(tmp)
+        ### HASH SECTION 1 PACKETS:
+        tmp = []
+        tmp.append( kmobjs.FIFO_pkt("0", color=S0_COLOR) )
+        tmp.append( kmobjs.FIFO_pkt("1", color=S0_COLOR) )
+        pkts[1].append(tmp)
+        tmp = []
+        tmp.append( kmobjs.FIFO_pkt("0", color=S1_COLOR) )
+        tmp.append( kmobjs.FIFO_pkt("1", color=S1_COLOR) )
+        pkts[1].append(tmp)
 
-        pkts[0][0].move_to( (Xpart+3, Y0, 0) )
-        pkts[1][0].move_to( (Xpart+3, Y3, 0) )
-        pkts[0][1].move_to( (Xpart+2, Y0, 0) )
-        pkts[1][1].move_to( (Xpart+2, Y3, 0) )
-        pkts[0][2].move_to( (Xpart+1, Y3, 0) )
-        pkts[1][2].move_to( (Xpart+1, Y0, 0) )
+        ##############
+        pkts[0][0][0].outline_color(H0_COLOR2, width=5)
+        pkts[0][0][1].outline_color(H0_COLOR2, width=5)
+        pkts[1][0][0].outline_color(H1_COLOR2, width=5)
+        pkts[1][0][1].outline_color(H1_COLOR2, width=5)
+        pkts[0][1][0].outline_color(H0_COLOR2, width=5)
+        pkts[0][1][1].outline_color(H0_COLOR2, width=5)
+        pkts[1][1][0].outline_color(H1_COLOR2, width=5)
+        pkts[1][1][1].outline_color(H1_COLOR2, width=5)
+
+        pkts[0][0][0].move_to( (Xpart+3, Y0, 0) )
+        pkts[0][0][1].move_to( (Xpart+2, Y0, 0) )
+        pkts[0][1][0].move_to( (Xpart+1, Y0, 0) )
+        pkts[0][1][1].move_to( (Xpart+0, Y0, 0) )
+        pkts[1][0][0].move_to( (Xpart+3, Y3, 0) )
+        pkts[1][0][1].move_to( (Xpart+2, Y3, 0) )
+        pkts[1][1][0].move_to( (Xpart+1, Y3, 0) )
+        pkts[1][1][1].move_to( (Xpart+0, Y3, 0) )
 
 
         self.play(
@@ -167,37 +180,45 @@ class unshuffle_agg_deadlock(Scene):
             ,Create(partitions[1])
             ,Create(dummy_partitions[0])
             ,Create(dummy_partitions[1])
-            ,Create(pkts[0][0])
-            ,Create(pkts[1][0])
-            ,Create(pkts[0][1])
-            ,Create(pkts[1][1])
-            ,Create(pkts[0][2])
-            ,Create(pkts[1][2])
+            ,Create(pkts[0][0][0])
+            ,Create(pkts[0][0][1])
+            ,Create(pkts[0][1][0])
+            ,Create(pkts[0][1][1])
+            ,Create(pkts[1][0][0])
+            ,Create(pkts[1][0][1])
+            ,Create(pkts[1][1][0])
+            ,Create(pkts[1][1][1])
         )
 
         self.wait(WAIT_TIME*0.5)
         self.play( 
             ChangeSpeed( AnimationGroup(
-                 pkts[0][0].animate.move_rel( (2, 0, 0) )
-                ,pkts[1][0].animate.move_rel( (2, 0, 0) )
-                ,pkts[0][1].animate.move_rel( (1, 0, 0) )
-                ,pkts[1][1].animate.move_rel( (1, 0, 0) )
-                ,pkts[0][2].animate.move_rel( (1, 0, 0) )
-                ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+                 pkts[0][0][0].animate.move_rel( (2, 0, 0) )
+                ,pkts[0][0][1].animate.move_rel( (1, 0, 0) )
+                ,pkts[0][1][0].animate.move_rel( (1, 0, 0) )
+                ,pkts[0][1][1].animate.move_rel( (1, 0, 0) )
+
+                ,pkts[1][0][0].animate.move_rel( (2, 0, 0) )
+                ,pkts[1][0][1].animate.move_rel( (1, 0, 0) )
+                ,pkts[1][1][0].animate.move_rel( (1, 0, 0) )
+                ,pkts[1][1][1].animate.move_rel( (1, 0, 0) )
             ),
             speedinfo={0.4: 0.4}
             )
         )
 
         self.wait(WAIT_TIME)
-        self.play(
+        self.play( 
             ChangeSpeed( AnimationGroup(
-                 pkts[0][0].animate.move_to( agg_regs[1][0].get_center() )
-                ,pkts[1][0].animate.move_to( agg_regs[0][1].get_center() )
-                ,pkts[0][1].animate.move_rel( (2, 0, 0) )
-                ,pkts[1][1].animate.move_rel( (2, 0, 0) )
-                ,pkts[0][2].animate.move_rel( (1, 0, 0) )
-                ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+                 pkts[0][0][0].animate.move_to( agg_regs[1][0].get_center() )
+                ,pkts[0][0][1].animate.move_rel( (2, 0, 0) )
+                ,pkts[0][1][0].animate.move_rel( (1, 0, 0) )
+                ,pkts[0][1][1].animate.move_rel( (1, 0, 0) )
+
+                ,pkts[1][0][0].animate.move_to( agg_regs[0][1].get_center() )
+                ,pkts[1][0][1].animate.move_rel( (2, 0, 0) )
+                ,pkts[1][1][0].animate.move_rel( (1, 0, 0) )
+                ,pkts[1][1][1].animate.move_rel( (1, 0, 0) )
             ),
             speedinfo={0.4: 0.4}
             )
