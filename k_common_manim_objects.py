@@ -31,6 +31,23 @@ class FIFO_pkt(VGroup):
     def move_to(self, coords):
         self.pkt.move_to(coords)
 
+    def move_rel(self, coord_offset):
+        cur_coords = self.pkt.get_center()
+        new_coords = cur_coords + coord_offset
+        self.pkt.move_to( new_coords )
+
+    def move_mix(self, coord_offset, modes):
+        modes = modes.lower()
+        cur_coords = self.pkt.get_center()
+        new_coords = []
+        for i in range(0, 3):
+            if modes[i] == 'a':     #absolute
+                new_coords.append( coord_offset[i] )
+            elif modes[i] == 'r':   #relative
+                new_coords.append( cur_coords[i] + coord_offset[i] )
+
+        self.pkt.move_to( new_coords )
+
 
 
 class FIFO_boxes(VGroup):
@@ -51,6 +68,10 @@ class FIFO_boxes(VGroup):
 
         for i in range(0, self.fifo_depth):
             self.add( self.boxes[i] )
+
+    def set_color(self, color, opacity=1):
+        for i in range(0, self.fifo_depth):
+            self.boxes[i].set_fill(color, opacity)
 
 
     def move_to(self, coords):
