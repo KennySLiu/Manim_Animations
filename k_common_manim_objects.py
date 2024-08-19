@@ -94,6 +94,7 @@ class RectTxt(VGroup):
         self.txt = Text(txt)
         self.txt_offset = txt_offset
         self.rect = Rectangle(height=h, width=w)
+        self.txt.move_to(self.rect.get_center() + self.txt_offset)
         self.txt.add_updater(lambda m : m.move_to(self.rect.get_center() + self.txt_offset))
         self.add(self.rect, self.txt)
 

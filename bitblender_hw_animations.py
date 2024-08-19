@@ -242,27 +242,27 @@ class unshuffle_unmix_data(Scene):
         SY0 = 2
         SY1 = 0
         SY2 = -2
-        WAIT_TIME = 0.3
+        WAIT_TIME = 0.8
 
         unshuf = kmobjs.RectTxt("UN\nSHUF", h=7, w=3, txt_offset=(0,0,0) )
-        p0 = kmobjs.FIFO_boxes(fifo_depth=6)
-        p1 = kmobjs.FIFO_boxes(fifo_depth=6)
-        p2 = kmobjs.FIFO_boxes(fifo_depth=6)
-        p3 = kmobjs.FIFO_boxes(fifo_depth=6)
+        p0 = kmobjs.FIFO_boxes(fifo_depth=4)
+        p1 = kmobjs.FIFO_boxes(fifo_depth=4)
+        p2 = kmobjs.FIFO_boxes(fifo_depth=4)
+        p3 = kmobjs.FIFO_boxes(fifo_depth=4)
         partitions = [p0, p1, p2, p3]
-        s0 = kmobjs.FIFO_boxes(fifo_depth=3)
-        s1 = kmobjs.FIFO_boxes(fifo_depth=3)
-        s2 = kmobjs.FIFO_boxes(fifo_depth=3)
+        s0 = kmobjs.FIFO_boxes(fifo_depth=6)
+        s1 = kmobjs.FIFO_boxes(fifo_depth=6)
+        s2 = kmobjs.FIFO_boxes(fifo_depth=6)
         streams = [s0, s1, s2]
 
-        unshuf.move_to( (X0+7, 0, 0) )
+        unshuf.move_to( (X0+5, 0, 0) )
         partitions[0].move_to( (X0, Y0, -5) )
         partitions[1].move_to( (X0, Y1, -5) )
         partitions[2].move_to( (X0, Y2, -5) )
         partitions[3].move_to( (X0, Y3, -5) )
-        streams[0].move_to( (X0+9, SY0, -5) )
-        streams[1].move_to( (X0+9, SY1, -5) )
-        streams[2].move_to( (X0+9, SY2, -5) )
+        streams[0].move_to( (X0+7, SY0, -5) )
+        streams[1].move_to( (X0+7, SY1, -5) )
+        streams[2].move_to( (X0+7, SY2, -5) )
         streams[0].set_color( YELLOW_E, opacity=0.5 )
         streams[1].set_color( BLUE, opacity=0.5  )
         streams[2].set_color( RED, opacity=0.5  )
@@ -286,6 +286,160 @@ class unshuffle_unmix_data(Scene):
         tmp.append( kmobjs.FIFO_pkt("2", color=RED) )
         pkts.append(tmp)
 
+        pkts[0][0].move_to( (X0+3, Y3, 0) )
+        pkts[0][1].move_to( (X0+2, Y0, 0) )
+        pkts[0][2].move_to( (X0+1, Y2, 0) )
+
+        pkts[1][0].move_to( (X0+2, Y3, 0) )
+        pkts[1][1].move_to( (X0+2, Y1, 0) )
+        pkts[1][2].move_to( (X0+0, Y2, 0) )
+
+        pkts[2][0].move_to( (X0+1, Y3, 0) )
+        pkts[2][1].move_to( (X0+2, Y2, 0) )
+        pkts[2][2].move_to( (X0+1, Y0, 0) )
+
+        self.play(
+            ChangeSpeed( AnimationGroup(
+                 Create(unshuf)
+                ,Create(partitions[0])
+                ,Create(partitions[1])
+                ,Create(partitions[2])
+                ,Create(partitions[3])
+                ,Create(streams[0])
+                ,Create(streams[1])
+                ,Create(streams[2])
+                ,Create(pkts[0][0])
+                ,Create(pkts[0][1])
+                ,Create(pkts[0][2])
+                ,Create(pkts[1][0])
+                ,Create(pkts[1][1])
+                ,Create(pkts[1][2])
+                ,Create(pkts[2][0])
+                ,Create(pkts[2][1])
+                ,Create(pkts[2][2])
+            ),
+            speedinfo={8:8}
+            )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (2, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_mix( (2, SY0, 0), 'raa' )
+            ,pkts[1][0].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (2, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_mix( (2, SY1, 0), 'raa' )
+            ,pkts[2][0].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][1].animate.move_mix( (2, SY0, 0), 'raa' )
+            #,pkts[1][1].animate.move_rel( (0, 0, 0) )
+            #,pkts[2][1].animate.move_rel( (0, 0, 0) )
+
+            #,pkts[0][2].animate.move_rel( (0, 0, 0) )
+            #,pkts[1][2].animate.move_rel( (0, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (2, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_mix( (2, SY2, 0), 'raa' )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_mix( (2, SY1, 0), 'raa' )
+            #,pkts[2][1].animate.move_rel( (0, 0, 0) )
+
+            #,pkts[0][2].animate.move_rel( (0, 0, 0) )
+            #,pkts[1][2].animate.move_rel( (0, 0, 0) )
+            #,pkts[2][2].animate.move_rel( (0, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_mix( (2, SY2, 0), 'raa' )
+
+            ,pkts[0][2].animate.move_rel( (2, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][2].animate.move_rel( (0, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_mix( (2, SY0, 0), 'raa' )
+            ,pkts[1][2].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][2].animate.move_mix( (2, SY2, 0), 'raa' )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_mix( (2, SY1, 0), 'raa' )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+
+        """
+        #######################
+        ### PESSIMISTIC (all clash on p0, except red 2)
+        #######################
+
+        #########################################
+        ## PUT THIS ABOVE THE Create BLOCK:
         for i in range(0, len(pkts[0])):
             pkts[0][i].move_to( (X0+5-3*i, Y3, 0) )
 
@@ -296,27 +450,9 @@ class unshuffle_unmix_data(Scene):
             pkts[2][i].move_to( (X0+3-3*i, Y3, 0) )
 
         pkts[2][2].move_to( (X0+3, Y2, 0) )
+        #########################################
 
 
-        self.play(
-            Create(unshuf)
-            ,Create(partitions[0])
-            ,Create(partitions[1])
-            ,Create(partitions[2])
-            ,Create(partitions[3])
-            ,Create(streams[0])
-            ,Create(streams[1])
-            ,Create(streams[2])
-            ,Create(pkts[0][0])
-            ,Create(pkts[0][1])
-            ,Create(pkts[0][2])
-            ,Create(pkts[1][0])
-            ,Create(pkts[1][1])
-            ,Create(pkts[1][2])
-            ,Create(pkts[2][0])
-            ,Create(pkts[2][1])
-            ,Create(pkts[2][2])
-        )
 
         self.wait(WAIT_TIME)
         self.play(
@@ -424,6 +560,7 @@ class unshuffle_unmix_data(Scene):
 
 
         self.wait(5*WAIT_TIME)
+        """
 
 
 
@@ -440,6 +577,10 @@ class arbiter_mixing_data(Scene):
         TOP_Y = 3
         MID_Y = 1
         BOT_Y = -1
+        Y0 = 3
+        Y1 = 1
+        Y2 = -1
+        Y3 = -3
         WAIT_TIME = 0.3
 
         arbiter = kmobjs.RectTxt("ARB", h=7, w=2, txt_offset=(0,1,0) )
@@ -484,23 +625,100 @@ class arbiter_mixing_data(Scene):
             pkts[2][i].move_to( (-i+X0-2, -2, 0) )
 
         self.play(
-            Create(arbiter)
-            ,Create(partitions[0])
-            ,Create(partitions[1])
-            ,Create(partitions[2])
-            ,Create(partitions[3])
-            ,Create(pkts[0][0])
-            ,Create(pkts[0][1])
-            ,Create(pkts[0][2])
-            ,Create(pkts[1][0])
-            ,Create(pkts[1][1])
-            ,Create(pkts[1][2])
-            ,Create(pkts[2][0])
-            ,Create(pkts[2][1])
-            ,Create(pkts[2][2])
+            ChangeSpeed( AnimationGroup(
+                 Create(arbiter)
+                ,Create(partitions[0])
+                ,Create(partitions[1])
+                ,Create(partitions[2])
+                ,Create(partitions[3])
+                ,Create(pkts[0][0])
+                ,Create(pkts[0][1])
+                ,Create(pkts[0][2])
+                ,Create(pkts[1][0])
+                ,Create(pkts[1][1])
+                ,Create(pkts[1][2])
+                ,Create(pkts[2][0])
+                ,Create(pkts[2][1])
+                ,Create(pkts[2][2])
+            ),
+            speedinfo={50:50}
+            )
         )
 
         self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_to( (X0-1, Y0+0.5, 0) )
+            ,pkts[1][0].animate.move_to( (X0-1, Y0+0, 0) )
+            ,pkts[2][0].animate.move_to( (X0-1, Y0-0.5, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, -0.5, 0) )
+            #,pkts[1][0].animate.move_to( (X0-1, TOP_Y+0, 0) )
+            #,pkts[2][0].animate.move_to( (X0-1, TOP_Y-1, 0) )
+
+            ,pkts[0][1].animate.move_to( (X0-1, Y3, 0) )
+            ,pkts[1][1].animate.move_to( (X0-1, Y2, 0) )
+            ,pkts[2][1].animate.move_to( (X0-1, Y1, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][0].animate.move_to( (X0-1, TOP_Y-1, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_to( (X0-1, Y1+0.3, 0) )
+            ,pkts[1][2].animate.move_to( (X0-1, Y1-0.3, 0) )
+            ,pkts[2][2].animate.move_to( (X0-1, Y3, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0.5, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, -0.3, 0) )
+            #,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0.3, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+        )
+
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+        self.wait(WAIT_TIME)
+
+
+        """
+        #######################
+        ### PESSIMISTIC (all clash on p0, except red 2)
+        #######################
 
         self.play(
             pkts[0][0].animate.move_to( (X0-1, TOP_Y+0.5, 0) )
@@ -602,6 +820,7 @@ class arbiter_mixing_data(Scene):
 
         self.wait(WAIT_TIME)
 
+        """
 
 
 
