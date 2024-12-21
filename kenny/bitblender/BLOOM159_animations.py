@@ -249,6 +249,9 @@ class separated_arb(Scene):
         tmp.append( kmobjs.FIFO_pkt("2", color=YELLOW_E) )
         tmp.append( kmobjs.FIFO_pkt("3", color=YELLOW_E) )
         tmp.append( kmobjs.FIFO_pkt("4", color=YELLOW_E) )
+        tmp.append( kmobjs.FIFO_pkt("5", color=YELLOW_E) )
+        tmp.append( kmobjs.FIFO_pkt("6", color=YELLOW_E) )
+        tmp.append( kmobjs.FIFO_pkt("7", color=YELLOW_E) )
         pkts.append(tmp)
 
         tmp = []
@@ -257,6 +260,9 @@ class separated_arb(Scene):
         tmp.append( kmobjs.FIFO_pkt("2", color=BLUE) )
         tmp.append( kmobjs.FIFO_pkt("3", color=BLUE) )
         tmp.append( kmobjs.FIFO_pkt("4", color=BLUE) )
+        tmp.append( kmobjs.FIFO_pkt("5", color=BLUE) )
+        tmp.append( kmobjs.FIFO_pkt("6", color=BLUE) )
+        tmp.append( kmobjs.FIFO_pkt("7", color=BLUE) )
         pkts.append(tmp)
 
         tmp = []
@@ -265,6 +271,9 @@ class separated_arb(Scene):
         tmp.append( kmobjs.FIFO_pkt("2", color=RED) )
         tmp.append( kmobjs.FIFO_pkt("3", color=RED) )
         tmp.append( kmobjs.FIFO_pkt("4", color=RED) )
+        tmp.append( kmobjs.FIFO_pkt("5", color=RED) )
+        tmp.append( kmobjs.FIFO_pkt("6", color=RED) )
+        tmp.append( kmobjs.FIFO_pkt("7", color=RED) )
         pkts.append(tmp)
 
         for i in range(0, len(pkts[0])):
@@ -304,23 +313,29 @@ class separated_arb(Scene):
                 ,Create(pkts[0][2])
                 ,Create(pkts[0][3])
                 ,Create(pkts[0][4])
+                ,Create(pkts[0][5])
+                ,Create(pkts[0][6])
+                ,Create(pkts[0][7])
                 ,Create(pkts[1][0])
                 ,Create(pkts[1][1])
                 ,Create(pkts[1][2])
                 ,Create(pkts[1][3])
                 ,Create(pkts[1][4])
+                ,Create(pkts[1][5])
+                ,Create(pkts[1][6])
+                ,Create(pkts[1][7])
                 ,Create(pkts[2][0])
                 ,Create(pkts[2][1])
                 ,Create(pkts[2][2])
                 ,Create(pkts[2][3])
                 ,Create(pkts[2][4])
+                ,Create(pkts[2][5])
+                ,Create(pkts[2][6])
+                ,Create(pkts[2][7])
             ),
             speedinfo={50:50}
             )
         )
-
-
-
 
         self.wait(WAIT_TIME)
         self.play(
@@ -343,15 +358,26 @@ class separated_arb(Scene):
             ,pkts[0][4].animate.move_rel( (1, 0, 0) )
             ,pkts[1][4].animate.move_rel( (1, 0, 0) )
             ,pkts[2][4].animate.move_rel( (1, 0, 0) )
-        )
 
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
+        )
 
 
         self.wait(WAIT_TIME)
         self.play(
              pkts[0][0].animate.move_to ( (X1, Y0+0.5, 0) )
-            ,pkts[1][0].animate.move_to ( (X1, Y0+0, 0) )
-            ,pkts[2][0].animate.move_to ( (X1, Y0-0.5, 0) )
+            ,pkts[1][0].animate.move_to ( (X1, Y2+0, 0) )
+            ,pkts[2][0].animate.move_to ( (X1, Y2-0.5, 0) )
 
             ,pkts[0][1].animate.move_rel( (2, 0, 0) )
             ,pkts[1][1].animate.move_rel( (2, 0, 0) )
@@ -368,18 +394,31 @@ class separated_arb(Scene):
             ,pkts[0][4].animate.move_rel( (1, 0, 0) )
             ,pkts[1][4].animate.move_rel( (1, 0, 0) )
             ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
         )
+
 
 
         self.wait(WAIT_TIME)
         self.play(
              pkts[0][0].animate.move_rel( (3, -0.5, 0) )
-            #,pkts[1][0].animate.move_rel( (0, 0, 0) )
-            #,pkts[2][0].animate.move_rel( (0, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (3, 0, 0) )
+            #,pkts[2][0].animate.move_to ( (X1, Y2-0.5, 0) )
 
-            ,pkts[0][1].animate.move_to ( (X1, Y1+0.5, 0) )
-            ,pkts[1][1].animate.move_to ( (X1, Y2, 0) )
-            ,pkts[2][1].animate.move_to ( (X1, Y3-0.5, 0) )
+            ,pkts[0][1].animate.move_to ( (X1, Y0+0.5, 0) )
+            ,pkts[1][1].animate.move_to ( (X1, Y2+0, 0) )
+            ,pkts[2][1].animate.move_to ( (X1-1, Y2-0.5, 0) )
 
             ,pkts[0][2].animate.move_rel( (2, 0, 0) )
             ,pkts[1][2].animate.move_rel( (2, 0, 0) )
@@ -392,22 +431,35 @@ class separated_arb(Scene):
             ,pkts[0][4].animate.move_rel( (1, 0, 0) )
             ,pkts[1][4].animate.move_rel( (1, 0, 0) )
             ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
         )
+
 
 
         self.wait(WAIT_TIME)
         self.play(
              pkts[0][0].animate.move_rel( (1, 0, 0) )
-            ,pkts[1][0].animate.move_rel( (3, 0, 0) )
-            #,pkts[2][0].animate.move_rel( (0, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (3, +0.5, 0) )
 
             ,pkts[0][1].animate.move_rel( (3, -0.5, 0) )
-            ,pkts[1][1].animate.move_rel( (3, 0, 0) )
-            ,pkts[2][1].animate.move_rel( (3, +0.5, 0) )
+            #,pkts[1][1].animate.move_rel( (0, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
 
             ,pkts[0][2].animate.move_to ( (X1, Y0+0.5, 0) )
-            ,pkts[1][2].animate.move_to ( (X1, Y2+0.0, 0) )
-            ,pkts[2][2].animate.move_to ( (X1, Y2-0.5, 0) )
+            ,pkts[1][2].animate.move_to ( (X1-1, Y2+0, 0) )
+            ,pkts[2][2].animate.move_to ( (X1-1, Y2-0.5, 0) )
 
             ,pkts[0][3].animate.move_rel( (2, 0, 0) )
             ,pkts[1][3].animate.move_rel( (2, 0, 0) )
@@ -416,6 +468,55 @@ class separated_arb(Scene):
             ,pkts[0][4].animate.move_rel( (1, 0, 0) )
             ,pkts[1][4].animate.move_rel( (1, 0, 0) )
             ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
+        )
+
+
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (3, 0, 0) )
+            #,pkts[2][1].animate.move_rel( (0, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (3, -0.5, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][2].animate.move_rel( (0, 0, 0) )
+
+            ,pkts[0][3].animate.move_to ( (X1, Y0+0.5, 0) )
+            ,pkts[1][3].animate.move_to ( (X1-1, Y2+0, 0) )
+            #,pkts[2][3].animate.move_rel ( (0, 0, 0) )
+
+            ,pkts[0][4].animate.move_rel( (2, 0, 0) )
+            ,pkts[1][4].animate.move_rel( (2, 0, 0) )
+            #,pkts[2][4].animate.move_rel( (0, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][7].animate.move_rel( (1, 0, 0) )
         )
 
 
@@ -423,23 +524,35 @@ class separated_arb(Scene):
         self.play(
              pkts[0][0].animate.move_rel( (1, 0, 0) )
             ,pkts[1][0].animate.move_rel( (1, 0, 0) )
-            ,pkts[2][0].animate.move_rel( (3, 0.5, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
 
             ,pkts[0][1].animate.move_rel( (1, 0, 0) )
             ,pkts[1][1].animate.move_rel( (1, 0, 0) )
-            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (3, +0.5, 0) )
 
-            #,pkts[0][2].animate.move_rel( (0, 0, 0) )
-            ,pkts[1][2].animate.move_rel( (3, 0, 0) )
-            #,pkts[2][2].animate.move_rel( (0, 0, 0) )
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
 
-            ,pkts[0][3].animate.move_to ( (X1, Y2+0.5, 0) )
-            ,pkts[1][3].animate.move_to ( (X1, Y2+0.0, 0) )
+            ,pkts[0][3].animate.move_rel( (3, -0.5, 0) )
+            #,pkts[1][3].animate.move_to ( (X1-1, Y2+0, 0) )
             ,pkts[2][3].animate.move_to ( (X1-1, Y2-0.5, 0) )
 
-            ,pkts[0][4].animate.move_rel( (2, 0, 0) )
-            ,pkts[1][4].animate.move_rel( (2, 0, 0) )
+            ,pkts[0][4].animate.move_to ( (X1, Y0+0.5, 0) )
+            #,pkts[1][4].animate.move_rel( (1, 0, 0) )
             ,pkts[2][4].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (2, 0, 0) )
+            #,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
         )
 
 
@@ -453,18 +566,336 @@ class separated_arb(Scene):
             ,pkts[1][1].animate.move_rel( (1, 0, 0) )
             ,pkts[2][1].animate.move_rel( (1, 0, 0) )
 
-            ,pkts[0][2].animate.move_rel( (3, -0.5, 0) )
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (3, 0, 0) )
+            #,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][3].animate.move_to ( (X1-1, Y2-0.5, 0) )
+
+            ,pkts[0][4].animate.move_rel( (3, -0.5, 0) )
+            ,pkts[1][4].animate.move_to ( (X1-1, Y2+0, 0) )
+            #,pkts[2][4].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][5].animate.move_to ( (X1, Y1+0.5, 0) )
+            ,pkts[1][5].animate.move_rel( (2, 0, 0) )
+            #,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][7].animate.move_rel( (1, 0, 0) )
+        )
+
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
             ,pkts[1][2].animate.move_rel( (1, 0, 0) )
             ,pkts[2][2].animate.move_rel( (3, +0.5, 0) )
 
-            #,pkts[0][3].animate.move_rel( (X1, Y2+0.5, 0) )
-            #,pkts[1][3].animate.move_rel( (X1, Y2+0.0, 0) )
+            ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][3].animate.move_rel( (3, 0, 0) )
             ,pkts[2][3].animate.move_rel( (1, 0, 0) )
 
-            ,pkts[0][4].animate.move_to ( (X1, Y0+0.5, 0) )
-            ,pkts[1][4].animate.move_to ( (X1, Y0+0.0, 0) )
-            ,pkts[2][4].animate.move_to ( (X1, Y0-0.5, 0) )
+            ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][4].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][4].animate.move_to ( (X1-1, Y2-0.5, 0) )
+
+            ,pkts[0][5].animate.move_rel( (3, -0.5, 0) )
+            #,pkts[1][5].animate.move_to ( (X1-1, Y2, 0) )
+            ,pkts[2][5].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][6].animate.move_to ( (X1, Y1+0.5, 0) )
+            #,pkts[1][6].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (2, 0, 0) )
+            #,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
         )
+
+
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][3].animate.move_rel( (3, 0, 0) )
+            #,pkts[2][3].animate.move_rel( (3, +0.5, 0) )
+
+            ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][4].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_to ( (X1-1, Y2, 0) )
+            #,pkts[2][5].animate.move_to ( (X1-1, Y2-0.5, 0) )
+
+            ,pkts[0][6].animate.move_rel( (3, -0.5, 0) )
+            ,pkts[1][6].animate.move_rel( (2, 0, 0) )
+            #,pkts[2][6].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][7].animate.move_to ( (X1, Y1+0.5, 0) )
+            ,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][7].animate.move_rel( (1, 0, 0) )
+        )
+
+
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][3].animate.move_rel( (3, +0.5, 0) )
+
+            ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][4].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][5].animate.move_to ( (X1-1, Y2, 0) )
+            ,pkts[2][5].animate.move_to ( (X1-1, Y2-0.5, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            #,pkts[1][6].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][6].animate.move_rel( (2, 0, 0) )
+
+            ,pkts[0][7].animate.move_rel( (3, -0.5, 0) )
+            #,pkts[1][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (1, 0, 0) )
+        )
+
+
+
+
+        self.wait(WAIT_TIME)
+        self.play(
+             pkts[0][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+            ,pkts[2][3].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][4].animate.move_rel( (3, 0, 0) )
+            #,pkts[2][4].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][5].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][5].animate.move_rel( (1, 0, 0) )
+            #,pkts[2][5].animate.move_rel( (1, 0, 0) )
+
+            ,pkts[0][6].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][6].animate.move_to ( (X1-1, Y2, 0) )
+            ,pkts[2][6].animate.move_to ( (X1, Y1-0.5, 0) )
+
+            ,pkts[0][7].animate.move_rel( (1, 0, 0) )
+            ,pkts[1][7].animate.move_rel( (2, 0, 0) )
+            ,pkts[2][7].animate.move_rel( (2, 0, 0) )
+        )
+
+
+
+
+
+
+
+
+
+        ##################
+        ##################
+        ## This is the INITIAL animation I made for the DEC18th 2024 weekly meeting.
+        ##################
+        ##################
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[1][0].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[2][0].animate.move_rel( (2, 0, 0) )
+
+        #####     ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][3].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+        ##### )
+
+
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_to ( (X1, Y0+0.5, 0) )
+        #####     ,pkts[1][0].animate.move_to ( (X1, Y0+0, 0) )
+        #####     ,pkts[2][0].animate.move_to ( (X1, Y0-0.5, 0) )
+
+        #####     ,pkts[0][1].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[1][1].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[2][1].animate.move_rel( (2, 0, 0) )
+
+        #####     ,pkts[0][2].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][2].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][3].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+        ##### )
+
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_rel( (3, -0.5, 0) )
+        #####     #,pkts[1][0].animate.move_rel( (0, 0, 0) )
+        #####     #,pkts[2][0].animate.move_rel( (0, 0, 0) )
+
+        #####     ,pkts[0][1].animate.move_to ( (X1, Y1+0.5, 0) )
+        #####     ,pkts[1][1].animate.move_to ( (X1, Y2, 0) )
+        #####     ,pkts[2][1].animate.move_to ( (X1, Y3-0.5, 0) )
+
+        #####     ,pkts[0][2].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[1][2].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[2][2].animate.move_rel( (2, 0, 0) )
+
+        #####     ,pkts[0][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][3].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][3].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+        ##### )
+
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][0].animate.move_rel( (3, 0, 0) )
+        #####     #,pkts[2][0].animate.move_rel( (0, 0, 0) )
+
+        #####     ,pkts[0][1].animate.move_rel( (3, -0.5, 0) )
+        #####     ,pkts[1][1].animate.move_rel( (3, 0, 0) )
+        #####     ,pkts[2][1].animate.move_rel( (3, +0.5, 0) )
+
+        #####     ,pkts[0][2].animate.move_to ( (X1, Y0+0.5, 0) )
+        #####     ,pkts[1][2].animate.move_to ( (X1, Y2+0.0, 0) )
+        #####     ,pkts[2][2].animate.move_to ( (X1, Y2-0.5, 0) )
+
+        #####     ,pkts[0][3].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[1][3].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[2][3].animate.move_rel( (2, 0, 0) )
+
+        #####     ,pkts[0][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][4].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][4].animate.move_rel( (1, 0, 0) )
+        ##### )
+
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][0].animate.move_rel( (3, 0.5, 0) )
+
+        #####     ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+        #####     #,pkts[0][2].animate.move_rel( (0, 0, 0) )
+        #####     ,pkts[1][2].animate.move_rel( (3, 0, 0) )
+        #####     #,pkts[2][2].animate.move_rel( (0, 0, 0) )
+
+        #####     ,pkts[0][3].animate.move_to ( (X1, Y2+0.5, 0) )
+        #####     ,pkts[1][3].animate.move_to ( (X1, Y2+0.0, 0) )
+        #####     ,pkts[2][3].animate.move_to ( (X1-1, Y2-0.5, 0) )
+
+        #####     ,pkts[0][4].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[1][4].animate.move_rel( (2, 0, 0) )
+        #####     ,pkts[2][4].animate.move_rel( (2, 0, 0) )
+        ##### )
+
+
+        ##### self.wait(WAIT_TIME)
+        ##### self.play(
+        #####      pkts[0][0].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][0].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][0].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[1][1].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][1].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][2].animate.move_rel( (3, -0.5, 0) )
+        #####     ,pkts[1][2].animate.move_rel( (1, 0, 0) )
+        #####     ,pkts[2][2].animate.move_rel( (3, +0.5, 0) )
+
+        #####     #,pkts[0][3].animate.move_rel( (X1, Y2+0.5, 0) )
+        #####     #,pkts[1][3].animate.move_rel( (X1, Y2+0.0, 0) )
+        #####     ,pkts[2][3].animate.move_rel( (1, 0, 0) )
+
+        #####     ,pkts[0][4].animate.move_to ( (X1, Y0+0.5, 0) )
+        #####     ,pkts[1][4].animate.move_to ( (X1, Y0+0.0, 0) )
+        #####     ,pkts[2][4].animate.move_to ( (X1, Y0-0.5, 0) )
+        ##### )
 
 
 
